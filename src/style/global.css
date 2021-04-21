@@ -1,0 +1,40 @@
+:root {
+    --color-background: radial-gradient(circle at center, #efeaf7 30%, #d3c5e8 100%);
+    --color-subTitle: #7e479b;
+    --color-p: #7c7a7d;
+
+
+
+    
+  }
+
+  *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+  }
+
+  html,
+  body{
+      background-color: var(--color-background);
+  }
+  a{
+      text-decoration: none;
+      transition: 0.2s opacity;
+  }
+  a:hover{
+      opacity: 0.8;
+  }
+
+  h6{
+    font-size: 24px;
+    color: var(--color-subTitle);
+  }
+
+  h1{text-shadow: 0 0 0.2em #87F, 0 0 0.2em #87F,0 0 0.2em #87F}
+
+  p{
+      font-size: 16px;
+      color: var(--color-p);
+  }
