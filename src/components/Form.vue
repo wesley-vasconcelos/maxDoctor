@@ -1,21 +1,23 @@
 <template>
 <div  class="d-flex justify-content-center">
-    <form  class="w-25">
-
+    <form  v-on:submit.prevent class="w-25">
     <div class="row d-flex justify-content-center">
         <div class="w-100">
        <b-form-group
        class="col"
       id="fieldset-1"
       label="CRM"
-      label-for="input-1"
-      valid-feedback="Thank you!"
-    :invalid-feedback="invalid_feedback"
-
+      label-for="input-1"  
+       valid-feedback="Thank you!"
+      :invalid-feedback="invalid_feedback"
+       :state="checkForm()" 
     >
       <b-form-input 
        placeholder="000000" 
-       id="input-1" v-model="form.crm" :state="state" trim></b-form-input>
+       id="input-1" 
+       v-model="form.crm" 
+       
+       ></b-form-input>
     </b-form-group>
     </div>
     <div class="w-100">
@@ -23,13 +25,17 @@
      label="UF:"
       class="col"
        valid-feedback="Thank you!"
+       v-model="form.UF_SELECTED" 
       :invalid-feedback="invalid_feedback"
-      label-for="id_machinePartner">
+       :state=" 
+        form.UF_SELECTED !== ''
+        ? form.UF_SELECTED
+        : false
+        " 
+      >
               <b-form-select
                 :options="UF"
-                required
-                v-model="form.UF_SELECTED"
-                :state="state"
+                v-model="form.UF_SELECTED" 
               >
                 <template v-slot:sigla>
                   <option :value="null" disabled
@@ -41,7 +47,7 @@
     </div>
    </div>
    <div id="form" style="flex-direction:column; padding-top: 20px">
-    <b-button style="background-color:#9c83be; border: none; width:400px" variant="success" @click="submit">
+    <b-button id="send" type="submit" class="btn" v-on:click="submit">
             Salvar
     </b-button>
   
@@ -62,11 +68,6 @@ import axios from 'axios';
 
 export default({
     name:'Form',
-     computed: {
-      state() {
-        return this.form.crm.length >= 5
-      },
-    },
     data() {
       return {
       invalid_feedback: 'Este campo é obrigatório.',
@@ -87,13 +88,14 @@ mounted () {
       }))
   },
 methods:{
+   checkForm: function () {
+      if (!this.form.crm) {
+        return this.form.crm.length >= 5 ? this.form.crm : false
+      }
+   },
      submit() {
-     if(this.form.UF_SELECTED == '' && this.form.crm == ''){
-         this.$toast.error({
-          title: 'Existem campo(s) obrigatório(s) sem preenchimento',
-          message: 'Favor preencher'
-        })
-     }else{
+       console.log('this.form.UF_SELECTED');
+   if(this.form.UF_SELECTED !== '' && this.form.crm >= 5){
          this.$toast.success({
           title: 'Operação concluída!',
           message: 'Perfil criado com sucesso.'
@@ -101,6 +103,13 @@ methods:{
          this.$router.push({
           name: 'initial'
         })
+     }else{
+       this.checkForm()
+
+       this.$toast.error({
+            title: 'Existem campo(s) obrigatório(s) sem preenchimento',
+            message: 'Favor preencher'
+          })
      }
     },
 }
@@ -118,6 +127,16 @@ methods:{
     text-align: center;
     padding-top: 20px;
 
+}
+#send{
+  width: 400px;
+    background-color: #9c83be;
+    border-color: transparent ;
+    border: none;
+    margin-top: 5%;
+    color:  #ffff;
+    font-weight: bold;
+    outline: none;
 }
 
 </style>
