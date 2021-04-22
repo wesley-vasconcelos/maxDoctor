@@ -98,7 +98,7 @@ methods:{
    if(this.form.UF_SELECTED !== '' && this.form.crm >= 5){
          this.$toast.success({
           title: 'Operação concluída!',
-          message: 'Perfil criado com sucesso.'
+          message: 'Perfil criado com sucesso.'  
         })
          this.$router.push({
           name: 'initial'
